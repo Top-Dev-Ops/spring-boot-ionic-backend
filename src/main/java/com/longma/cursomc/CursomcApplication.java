@@ -7,12 +7,17 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import com.longma.cursomc.domain.Address;
 import com.longma.cursomc.domain.Category;
 import com.longma.cursomc.domain.City;
+import com.longma.cursomc.domain.Client;
 import com.longma.cursomc.domain.Product;
 import com.longma.cursomc.domain.State;
+import com.longma.cursomc.domain.enums.ClientType;
+import com.longma.cursomc.repositories.AddressRepository;
 import com.longma.cursomc.repositories.CategoryRepository;
 import com.longma.cursomc.repositories.CityRepository;
+import com.longma.cursomc.repositories.ClientRepository;
 import com.longma.cursomc.repositories.ProductRepository;
 import com.longma.cursomc.repositories.StateRepository;
 
@@ -27,6 +32,10 @@ public class CursomcApplication implements CommandLineRunner {
 	private CityRepository cityRepository;
 	@Autowired
 	private StateRepository stateRepository;
+	@Autowired
+	private ClientRepository clientRepository;
+	@Autowired
+	private AddressRepository addressRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(CursomcApplication.class, args);
@@ -64,6 +73,16 @@ public class CursomcApplication implements CommandLineRunner {
 		stateRepository.saveAll(Arrays.asList(st1, st2));
 		cityRepository.saveAll(Arrays.asList(city1, city2, city3));
 		
+		Client cli1 = new Client(null, "LongMa", "longma@email.com", "111", ClientType.PERSONLEGAL);
+		cli1.getTelephones().addAll(Arrays.asList("1234", "2345"));
+		
+		Address add1 = new Address(null, "XinQu", "200", "Apart 906", "Unknown", "118000", cli1, city1);
+		Address add2 = new Address(null, "XinQu", "300", "Apart 707", "JooSung", "118000", cli1, city2);
+		
+		cli1.getAddresses().addAll(Arrays.asList(add1, add2));
+		
+		clientRepository.saveAll(Arrays.asList(cli1));
+		addressRepository.saveAll(Arrays.asList(add1, add2));
 	}
 
 }

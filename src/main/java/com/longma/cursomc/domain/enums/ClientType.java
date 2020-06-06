@@ -2,7 +2,7 @@ package com.longma.cursomc.domain.enums;
 
 public enum ClientType {
 	PERSONPHYSICS(1, "Person Physics"),
-	PERSONLEGAL(1, "Person Legal");
+	PERSONLEGAL(2, "Person Legal");
 	
 	private int number;
 	private String description;
