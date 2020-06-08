@@ -12,6 +12,7 @@ import com.longma.cursomc.domain.Address;
 import com.longma.cursomc.domain.Category;
 import com.longma.cursomc.domain.City;
 import com.longma.cursomc.domain.Client;
+import com.longma.cursomc.domain.ItemOrder;
 import com.longma.cursomc.domain.Order;
 import com.longma.cursomc.domain.Payment;
 import com.longma.cursomc.domain.PaymentWithCard;
@@ -24,6 +25,7 @@ import com.longma.cursomc.repositories.AddressRepository;
 import com.longma.cursomc.repositories.CategoryRepository;
 import com.longma.cursomc.repositories.CityRepository;
 import com.longma.cursomc.repositories.ClientRepository;
+import com.longma.cursomc.repositories.ItemOrderRepository;
 import com.longma.cursomc.repositories.OrderRepository;
 import com.longma.cursomc.repositories.PaymentRepository;
 import com.longma.cursomc.repositories.ProductRepository;
@@ -48,6 +50,8 @@ public class CursomcApplication implements CommandLineRunner {
 	private OrderRepository orderRepository;
 	@Autowired
 	private PaymentRepository paymentRepository;
+	@Autowired
+	private ItemOrderRepository itemOrderRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(CursomcApplication.class, args);
@@ -109,6 +113,18 @@ public class CursomcApplication implements CommandLineRunner {
 		
 		orderRepository.saveAll(Arrays.asList(order1, order2));
 		paymentRepository.saveAll(Arrays.asList(pay1, pay2));
+		
+		ItemOrder io1 = new ItemOrder(order1, p1, 0.00, 1, 2000.00);
+		ItemOrder io2 = new ItemOrder(order1, p3, 0.00, 2, 80.00);
+		ItemOrder io3 = new ItemOrder(order2, p2, 100.00, 1, 800.00);
+		
+		order1.getItems().addAll(Arrays.asList(io1, io2));
+		order2.getItems().addAll(Arrays.asList(io3));
+		p1.getItems().addAll(Arrays.asList(io1));
+		p2.getItems().addAll(Arrays.asList(io3));
+		p3.getItems().addAll(Arrays.asList(io2));
+
+		itemOrderRepository.saveAll(Arrays.asList(io1, io2, io3));
 	}
 
 }
