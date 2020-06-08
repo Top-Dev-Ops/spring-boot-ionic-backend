@@ -13,7 +13,7 @@ public class OrderService {
 	@Autowired
 	private OrderRepository repo;
 	
-	public Order search(Integer id) {
+	public Order find(Integer id) {
 		Order obj = repo.findById(id).orElse(null);
 		if(obj == null) {
 			throw new ObjectNotFoundException("Object not found with Id " + id);

@@ -13,7 +13,7 @@ public class ClientService {
 	@Autowired
 	private ClientRepository repo;
 	
-	public Client search(Integer id) {
+	public Client find(Integer id) {
 		Client obj = repo.findById(id).orElse(null);
 		if(obj == null) {
 			throw new ObjectNotFoundException("Object not found with Id " + id);
