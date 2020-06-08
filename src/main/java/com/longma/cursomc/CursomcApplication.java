@@ -1,5 +1,6 @@
 package com.longma.cursomc;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,13 +12,20 @@ import com.longma.cursomc.domain.Address;
 import com.longma.cursomc.domain.Category;
 import com.longma.cursomc.domain.City;
 import com.longma.cursomc.domain.Client;
+import com.longma.cursomc.domain.Order;
+import com.longma.cursomc.domain.Payment;
+import com.longma.cursomc.domain.PaymentWithCard;
+import com.longma.cursomc.domain.PaymentWithWallet;
 import com.longma.cursomc.domain.Product;
 import com.longma.cursomc.domain.State;
 import com.longma.cursomc.domain.enums.ClientType;
+import com.longma.cursomc.domain.enums.PaymentStatus;
 import com.longma.cursomc.repositories.AddressRepository;
 import com.longma.cursomc.repositories.CategoryRepository;
 import com.longma.cursomc.repositories.CityRepository;
 import com.longma.cursomc.repositories.ClientRepository;
+import com.longma.cursomc.repositories.OrderRepository;
+import com.longma.cursomc.repositories.PaymentRepository;
 import com.longma.cursomc.repositories.ProductRepository;
 import com.longma.cursomc.repositories.StateRepository;
 
@@ -36,6 +44,10 @@ public class CursomcApplication implements CommandLineRunner {
 	private ClientRepository clientRepository;
 	@Autowired
 	private AddressRepository addressRepository;
+	@Autowired
+	private OrderRepository orderRepository;
+	@Autowired
+	private PaymentRepository paymentRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(CursomcApplication.class, args);
@@ -83,6 +95,20 @@ public class CursomcApplication implements CommandLineRunner {
 		
 		clientRepository.saveAll(Arrays.asList(cli1));
 		addressRepository.saveAll(Arrays.asList(add1, add2));
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+		Order order1 = new Order(null, sdf.parse("30/09/2020 10:32"), cli1, add1);
+		Order order2 = new Order(null, sdf.parse("10/10/2020 10:32"), cli1, add2);
+		
+		Payment pay1 = new PaymentWithCard(null, PaymentStatus.SETTLED, order1, 6);
+		order1.setPayment(pay1);
+		Payment pay2 = new PaymentWithWallet(null, PaymentStatus.PENDING, order2, sdf.parse("20/10/2020 00:00"), null);
+		order2.setPayment(pay2);
+
+		cli1.getOrders().addAll(Arrays.asList(order1, order2));
+		
+		orderRepository.saveAll(Arrays.asList(order1, order2));
+		paymentRepository.saveAll(Arrays.asList(pay1, pay2));
 	}
 
 }
