@@ -5,6 +5,7 @@ import java.util.Date;
 
 import javax.persistence.Entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.longma.cursomc.domain.enums.PaymentStatus;
 
 @Entity
@@ -12,7 +13,9 @@ public class PaymentWithWallet extends Payment implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@JsonFormat(pattern="dd/MM/yyyy hh:mm")
 	private Date dueDate;
+	@JsonFormat(pattern="dd/MM/yyyy hh:mm")
 	private Date payDate;
 	
 	public PaymentWithWallet() { }
