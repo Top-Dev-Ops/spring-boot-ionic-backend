@@ -2,45 +2,47 @@ package com.longma.cursomc.services.validation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.servlet.HandlerMapping;
 
 import com.longma.cursomc.domain.Client;
-import com.longma.cursomc.domain.enums.ClientType;
-import com.longma.cursomc.dto.ClientNewDTO;
+import com.longma.cursomc.dto.ClientDTO;
 import com.longma.cursomc.repositories.ClientRepository;
 import com.longma.cursomc.resources.exception.FieldMessage;
-import com.longma.cursomc.services.validation.utils.BR;
 
-public class ClientInsertValidator implements ConstraintValidator<ClientInsert, ClientNewDTO> {
+public class ClientUpdateValidator implements ConstraintValidator<ClientUpdate, ClientDTO> {
+
+	@Autowired
+	private HttpServletRequest request;
 	
 	@Autowired
 	private ClientRepository repo;
 	
 	@Override
-	public void initialize(ClientInsert ann) {
+	public void initialize(ClientUpdate ann) {
 		
 	}
 	
 	@Override
-	public boolean isValid(ClientNewDTO objDto, ConstraintValidatorContext context) {
+	public boolean isValid(ClientDTO objDto, ConstraintValidatorContext context) {
 
+		@SuppressWarnings("unchecked")
+		Map<String, String> map = (Map<String, String>) request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
+		Integer uriId = Integer.parseInt(map.get("id"));
+		
 		List<FieldMessage> list = new ArrayList<>();
 		
-		// include the tests here, inserting errors in the list
-		if (objDto.getType().equals(ClientType.PERSONPHYSICS.getNumber()) && !BR.isValidCPF(objDto.getCpfOrCnpj())) {
-			list.add(new FieldMessage("CpfOrCnpj", "Invalid CPF"));
-		}
-		
-		if (objDto.getType().equals(ClientType.PERSONLEGAL.getNumber()) && !BR.isValidCNPJ(objDto.getCpfOrCnpj())) {
-			list.add(new FieldMessage("CpfOrCnpj", "Invalid CNPJ"));
-		}
-		
 		Client aux = repo.findByEmail(objDto.getEmail());
-		if (aux != null) {
+		if(aux != null) {
+			System.out.println("getid: " + aux.getId().toString() + "---- uri: " + uriId);
+		}
+		if (aux != null && !aux.getId().equals(uriId)) {
 			list.add(new FieldMessage("Email", "Email already exists"));
 		}
 		
