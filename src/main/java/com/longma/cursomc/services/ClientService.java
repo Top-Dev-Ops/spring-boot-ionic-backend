@@ -77,7 +77,7 @@ public class ClientService {
 	}
 	
 	public Client fromDTO(ClientNewDTO objDto) {
-		Client cli = new Client(null, objDto.getName(), objDto.getEmail(), objDto.getPhyOrLegal(), ClientType.toEnum(objDto.getType()));
+		Client cli = new Client(null, objDto.getName(), objDto.getEmail(), objDto.getCpfOrCnpj(), ClientType.toEnum(objDto.getType()));
 		City city = cityRepo.findById(objDto.getCityId()).orElse(null);
 		Address add = new Address(null, objDto.getPlace(), objDto.getNumber(), objDto.getComplement(), objDto.getNeighborhood(), objDto.getZip(), cli, city);
 		cli.getAddresses().add(add);

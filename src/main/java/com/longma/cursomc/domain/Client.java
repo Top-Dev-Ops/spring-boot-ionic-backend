@@ -27,7 +27,7 @@ public class Client implements Serializable {
 	private Integer id;
 	private String name;
 	private String email;
-	private String phyOrLegal;
+	private String cpfOrCnpj;
 	private Integer type;
 	
 	@OneToMany(mappedBy="client")
@@ -43,12 +43,12 @@ public class Client implements Serializable {
 	
 	public Client() { }
 
-	public Client(Integer id, String name, String email, String phyOrLegal, ClientType type) {
+	public Client(Integer id, String name, String email, String cpfOrCnpj, ClientType type) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.email = email;
-		this.phyOrLegal = phyOrLegal;
+		this.cpfOrCnpj = cpfOrCnpj;
 		this.type = (type == null) ? null : type.getNumber();
 	}
 
@@ -76,12 +76,12 @@ public class Client implements Serializable {
 		this.email = email;
 	}
 
-	public String getPhyOrLegal() {
-		return phyOrLegal;
+	public String getCpfOrCnpj() {
+		return cpfOrCnpj;
 	}
 
-	public void setPhyOrLegal(String phyOrLegal) {
-		this.phyOrLegal = phyOrLegal;
+	public void setCpfOrCnpj(String cpfOrCnpj) {
+		this.cpfOrCnpj = cpfOrCnpj;
 	}
 
 	public ClientType getType() {

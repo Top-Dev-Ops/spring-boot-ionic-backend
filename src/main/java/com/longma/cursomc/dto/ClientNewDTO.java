@@ -8,7 +8,7 @@ public class ClientNewDTO implements Serializable {
 
 	private String name;
 	private String email;
-	private String phyOrLegal;
+	private String cpfOrCnpj;
 	private Integer type;
 	
 	private String place;
@@ -43,12 +43,12 @@ public class ClientNewDTO implements Serializable {
 		this.email = email;
 	}
 
-	public String getPhyOrLegal() {
-		return phyOrLegal;
+	public String getCpfOrCnpj() {
+		return cpfOrCnpj;
 	}
 
-	public void setPhyOrLegal(String phyOrLegal) {
-		this.phyOrLegal = phyOrLegal;
+	public void setCpfOrCnpj(String cpfOrCnpj) {
+		this.cpfOrCnpj = cpfOrCnpj;
 	}
 
 	public Integer getType() {
