@@ -35,7 +35,8 @@ public class CategoryService {
 	}
 	
 	public Category update(Category obj) {
-		find(obj.getId());
+		Category newObj = find(obj.getId());
+		updateData(newObj, obj);
 		return repo.save(obj);
 	}
 	
@@ -44,7 +45,7 @@ public class CategoryService {
 		try {
 			repo.deleteById(id);
 		} catch (DataIntegrityViolationException e) {
-			throw new DataIntegrityException("Impossible to delete client due to some relations");
+			throw new DataIntegrityException("Impossible to delete category with products");
 		}
 	}
 	
@@ -59,5 +60,9 @@ public class CategoryService {
 	
 	public Category fromDTO(CategoryDTO objDto) {
 		return new Category(objDto.getId(), objDto.getName());
+	}
+	
+	public void updateData(Category newObj, Category obj) {
+		newObj.setName(obj.getName());
 	}
 }
