@@ -44,7 +44,7 @@ public class CategoryService {
 		try {
 			repo.deleteById(id);
 		} catch (DataIntegrityViolationException e) {
-			throw new DataIntegrityException("Impossible to delete category with products");
+			throw new DataIntegrityException("Impossible to delete client due to some relations");
 		}
 	}
 	
