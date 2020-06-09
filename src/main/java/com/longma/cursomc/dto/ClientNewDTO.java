@@ -2,21 +2,38 @@ package com.longma.cursomc.dto;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
+
+import com.longma.cursomc.services.validation.ClientInsert;
+
+@ClientInsert
 public class ClientNewDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@NotEmpty(message="Name can not be empty")
+	@Length(min=5, max=120, message="Please enter between 5 and 120 characters")
 	private String name;
+	@NotEmpty(message="Name can not be empty")
+	@Email(message="Invalid email")
 	private String email;
+	@NotEmpty(message="Please choose either CPF or CNPJ")
 	private String cpfOrCnpj;
 	private Integer type;
 	
+	@NotEmpty(message="Place can not be empty")
 	private String place;
+	@NotEmpty(message="Number can not be empty")
 	private String number;
 	private String complement;
 	private String neighborhood;
+	@NotEmpty(message="Zip code can not be empty")
 	private String zip;
 	
+	@NotEmpty(message="Please enter at least 1 phone number")
 	private String telephone1;
 	private String telephone2;
 	private String telephone3;
