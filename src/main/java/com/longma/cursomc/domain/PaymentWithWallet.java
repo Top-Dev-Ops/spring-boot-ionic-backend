@@ -6,9 +6,11 @@ import java.util.Date;
 import javax.persistence.Entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.longma.cursomc.domain.enums.PaymentStatus;
 
 @Entity
+@JsonTypeName("paymentWithWallet")
 public class PaymentWithWallet extends Payment implements Serializable {
 
 	private static final long serialVersionUID = 1L;
